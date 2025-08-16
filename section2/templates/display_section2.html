@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Section 2: Classes</title>
+</head>
+<body>
+    <h1>Section 2: Clases</h1>
+    <hr />
+    <input type="text" id="data_to_extract">
+    <button type="submit" onclick="SendNumber()">Enviar numero</button>
+    <div id="input_error" hidden>El número debe ser un entero entre 1 y 100</div>
+    <hr />
+    <h2>List of Numbers</h2>
+    {{ list_naturals }}
+    <hr />
+    <h2>Number Lost</h2>
+    {{ html_table|safe }}
+    <br />
+    {{ message }}
+    <script>
+        function SendNumber() {
+            errorInput = document.getElementById("input_error");
+            dataToExtract = document.getElementById("data_to_extract");
+            if (isNaN(dataToExtract.value) || dataToExtract.value < 0) {
+                errorInput.hidden = false;
+            } else {
+                window.location.href="/section_2/" + dataToExtract.value;
+            }
+        }
+    </script>
+</body>
+</html>

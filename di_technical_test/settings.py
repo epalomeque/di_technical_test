@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_pandas",
     "data",
-    "presentation"
+    "presentation",
+    "section2"
 ]
 
 MIDDLEWARE = [
