@@ -20,9 +20,21 @@ class sales(models.Model):
   updated_at = models.DateTimeField(editable=False, blank=False)
 
 
-class charges(models.Model):
-    pass
+class status(models.Model):
+    id = models.CharField(max_length=24, primary_key=True)
+    status_name = models.CharField(max_length=30)
 
 
 class companies(models.Model):
-    pass
+    id = models.CharField(max_length=24, primary_key=True)
+    company_name = models.CharField(max_length=130)
+    company_id = models.CharField(max_length=24)
+
+
+class charges(models.Model):
+    id = models.CharField(max_length=24, primary_key=True)
+    company = models.ForeignKey(companies, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=16, decimal_places=2)
+    status = models.ForeignKey(status, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(editable=False, blank=False)
+    updated_at = models.DateTimeField(editable=False, blank=False)
