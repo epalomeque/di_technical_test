@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Analysis</title>
+</head>
+<body>
+    <h1>Data Analysis</h1>
+    <hr />
+    <h2>Categorized data</h2>
+    <table border="1" class="dataframe">
+        <tr>
+            <td>
+            <h3>Name Data</h3>
+            <ul>
+            {% for name in name_values %}
+                <li>{{ name }}</li>
+            {% endfor %}
+            </ul>
+            </td>
+            <td>
+            <h3>company_id Data</h3>
+            {% for company in company_id_values %}
+                <li>{{ company }}</li>
+            {% endfor %}
+            </td>
+            <td>
+            <h3>Status Data</h3>
+            {% for status in status_values %}
+                <li>{{ status }}</li>
+            {% endfor %}
+            </td>
+            <td>
+            <h3>Company W Name Data</h3>
+            {{ company_w_id_table | safe }}
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <h2>Sample Data Table</h2>
+    {{ html_table|safe }}
+</body>
+</html>
