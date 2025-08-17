@@ -4,6 +4,12 @@ from data.views import (get_sample_data, get_name_values,
                         get_company_w_id)
 
 # Create your views here.
+def home(request):
+    return render(request, 'indice.html', {})
+
+def section_1(request):
+    return render(request, 'section_1.html',{})
+
 def display_table(request):
     sales_df = get_sample_data()
 
