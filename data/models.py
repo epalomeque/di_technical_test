@@ -10,7 +10,7 @@ status marchar(30) NOT NULL
 created_at timestamp NOT NULL
 updated_at timestamp NULL
 """
-class sales(models.Model):
+class Sales(models.Model):
   id = models.CharField(max_length=24, primary_key=True)
   company_name = models.CharField(max_length=130)
   company_id = models.CharField(max_length=24)
@@ -20,21 +20,16 @@ class sales(models.Model):
   updated_at = models.DateTimeField(editable=False, blank=False)
 
 
-class status(models.Model):
-    id = models.CharField(max_length=24, primary_key=True)
-    status_name = models.CharField(max_length=30)
-
-
-class companies(models.Model):
+class Companies(models.Model):
     id = models.CharField(max_length=24, primary_key=True)
     company_name = models.CharField(max_length=130)
     company_id = models.CharField(max_length=24)
 
 
-class charges(models.Model):
+class Charges(models.Model):
     id = models.CharField(max_length=24, primary_key=True)
-    company = models.ForeignKey(companies, on_delete=models.CASCADE)
+    company = models.ForeignKey(Companies, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=16, decimal_places=2)
-    status = models.ForeignKey(status, on_delete=models.CASCADE)
+    status = models.CharField(max_length=30)
     created_at = models.DateTimeField(editable=False, blank=False)
     updated_at = models.DateTimeField(editable=False, blank=False)
