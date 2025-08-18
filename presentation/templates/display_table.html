@@ -7,39 +7,72 @@
     {% bootstrap_javascript %}
 </head>
 <body>
+    <div class="container">
     <h1>Data Analysis</h1>
-    <hr />
-    <h2>Categorized data</h2>
-    <table border="1" class="dataframe">
-        <tr>
-            <td>
-            <h3>Name Data</h3>
+        <div class="row">
+        <div class="col-sm">
+            <h2>shape_data</h2>
+            {{ shape_data | safe }}
+        </div>
+        <div class="col-sm">
+            <h3>Column Names</h3>
             <ul>
-            {% for name in name_values %}
-                <li>{{ name }}</li>
+            {% for column in column_names %}
+            <li>{{ column }}</li>
             {% endfor %}
-            </ul>
-            </td>
-            <td>
-            <h3>company_id Data</h3>
-            {% for company in company_id_values %}
-                <li>{{ company }}</li>
-            {% endfor %}
-            </td>
-            <td>
+        </ul>
+        </div>
+        </div>
+        <div class="row">
+            <h2>Categorized data</h2>
+            <!-- div class="col-sm">
+                <h3>Name Data</h3>
+                <ul>
+                {% for name in name_values %}
+                    <li>{{ name }}</li>
+                {% endfor %}
+                </ul>
+            </div -->
+            <!-- div class="col-sm">
+                <h3>company_id Data</h3>
+                {% for company in company_id_values %}
+                    <li>{{ company }}</li>
+                {% endfor %}
+            </div -->
+            <div class="col-sm">
             <h3>Status Data</h3>
             {% for status in status_values %}
                 <li>{{ status }}</li>
             {% endfor %}
-            </td>
-            <td>
+            </div>
+            <div class="col-sm">
             <h3>Company W Name Data</h3>
             {{ company_w_id_table | safe }}
-            </td>
-        </tr>
-    </table>
-    <hr>
-    <h2>Sample Data Table</h2>
-    {{ html_table|safe }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h2>Sample Data Table</h2>
+                {{ html_table| safe }}
+            </div>
+            <div class="col-sm">
+                <h2>NaN in Names</h2>
+                {{ nan_in_names | safe }}
+            </div>
+            <div class="col-sm">
+                <h2>NaN in Created</h2>
+                {{ nan_in_created | safe }}
+            </div>
+            <div class="col-sm">
+                <h2>NaN in Paid</h2>
+                {{ nan_in_paid | safe }}
+            </div>
+        </div>
+    </div>
+
+    <!--
+    <hr />
+    {{ column_types | safe }}
+    -->
 </body>
 </html>

@@ -17,11 +17,13 @@ RUN apt-get update \
 WORKDIR /app
 
 # Install Python dependencies first (better caching)
-COPY requirements.txt /app/
+COPY requirements.txt .
+RUN echo "----- copied requirements.txt"
 RUN pip install --no-cache-dir -r requirements.txt
+RUN echo "----- installed requirements"
 
 # Copy project files
-COPY . /app
+COPY . .
 
 # Expose Django port
 EXPOSE 8000
