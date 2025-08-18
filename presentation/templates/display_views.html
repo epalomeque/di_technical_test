@@ -1,28 +1,30 @@
 {% extends 'base.html' %}
 {% block page_title %}Data Analysis{% endblock %}
+
 {% block breadcrumb %}
-<ul class="breadcrumb">
-<li><a href="{% url 'home' %}">Inicio</a></li>
-<li><a href="{% url 'section_1' %}"> | Section 1</a></li>
-<li><a href="{% url 'save_to_db' %}"> | 2. Dispersión de la Información</a></li>
-</ul>
+    <ul class="breadcrumb">
+    <li><a href="{% url 'home' %}">Inicio </a></li>
+    <li><a href="{% url 'section_1' %}"> | Section 1 </a></li>
+    <li><a href="{% url 'create_views' %}"> | 4. Display Views</a></li>
+    </ul>
 {% endblock breadcrumb %}
+
 {% block content %}
     <div class="container">
-    <h1>DataBase</h1>
+    <h1>Views</h1>
         <div class="row">
-            <div class="col-sm">
-                <h2>Total Records</h2>
-                {{ total_records | safe }}
-            </div>
-            <div class="col-sm">
-                <h3>Column Names</h3>
-                <ul>
-                {% for column in column_names %}
-                <li>{{ column }}</li>
-                {% endfor %}
-            </ul>
-            </div>
+        <div class="col-sm">
+            <h2>shape_data</h2>
+            {{ shape_data | safe }}
+        </div>
+        <div class="col-sm">
+            <h3>Column Names</h3>
+            <ul>
+            {% for column in column_names %}
+            <li>{{ column }}</li>
+            {% endfor %}
+        </ul>
+        </div>
         </div>
         <div class="row">
             <h2>Categorized data</h2>
@@ -48,9 +50,7 @@
             </div>
             <div class="col-sm">
             <h3>Company W Name Data</h3>
-            {% for company in company_w_id %}
-                <li>{{ company }}</li>
-            {% endfor %}
+            {{ company_w_id_table | safe }}
             </div>
         </div>
         <div class="row">

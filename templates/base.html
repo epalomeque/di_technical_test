@@ -11,11 +11,15 @@
     {% bootstrap_javascript %}
 </head>
 <body>
+      <div class="container">
+      <div class="row">
       {% block breadcrumb %}
       <ul class="breadcrumb">
         <li><a href="{% url 'home' %}">Inicio</a></li>
       </ul>
       {% endblock breadcrumb %}
+        </div>
+      </div>
     {% block content %}
     {% endblock %}
     {% block footer %}

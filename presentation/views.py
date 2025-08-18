@@ -37,7 +37,6 @@ def save_to_db(request):
 
     list_status = Sales.objects.values_list('status', flat=True)
     list_company = Sales.objects.values_list('company_name', 'company_id')
-    print(list_company)
 
     df_context = {
         "total_records": total_in_db,
@@ -51,8 +50,27 @@ def save_to_db(request):
 
 
 def save_new_tables(request):
-    sales_df = get_sample_data()
-    pass
+    total_in_db = Sales.objects.count()
+    # Si hay registros en la base de datos, cargarlas nuevas tablas
+    if total_in_db > 0:
+        # Obtener datos de las compañias
+        list_company = set(Sales.objects.values_list('company_name', 'company_id'))
+        for data in list_company:
+            print(f'{ data }')
+
+    df_context = { }
+    return render(request,
+                  'display_new_tables.html',
+                  df_context)
+
+
+def create_views(request):
+    # TODO: Crear las vistas
+    df_context = { }
+    return render(request,
+                  'display_views.html',
+                  df_context)
+
 
 """
 context_functions
