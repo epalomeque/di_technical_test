@@ -22,9 +22,8 @@ class Sales(models.Model):
 
 
 class Companies(models.Model):
-    id = models.CharField(max_length=24, primary_key=True)
+    id = models.CharField(max_length=COMPANY_ID_MAX_LENGTH, primary_key=True)
     company_name = models.CharField(max_length=130)
-    company_id = models.CharField(max_length=24)
 
 
 class Charges(models.Model):

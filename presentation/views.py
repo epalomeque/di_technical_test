@@ -1,12 +1,12 @@
 import pandas as pd
 from django.shortcuts import render
-from data.models import Sales
+from data.models import Sales, Companies, Charges
 from data.views import (get_sample_data, get_name_values,
                         get_status_values, get_company_id_values,
                         get_company_w_id, get_columns_values, get_data_shape,
                         filter_nan_in_names, save_full_dataset,
                         filter_nan_in_created_at, filter_nan_in_paid_at,
-                        clean_dataframe, save_full_dataset_bulk)
+                        clean_dataframe, save_full_dataset_bulk, save_companies, get_sample_data_cleaned, save_charges)
 
 # Create your views here.
 def home(request):
@@ -51,14 +51,21 @@ def save_to_db(request):
 
 def save_new_tables(request):
     total_in_db = Sales.objects.count()
-    # Si hay registros en la base de datos, cargarlas nuevas tablas
+    # Si hay registros en la base de datos, obtener los datos de las compañias y guardarlos en las tablas
     if total_in_db > 0:
-        # Obtener datos de las compañias
+        # Obtener datos de las compañias y guardarlo en las tablas
         list_company = set(Sales.objects.values_list('company_name', 'company_id'))
-        for data in list_company:
-            print(f'{ data }')
+        total_in_companies_db = Companies.objects.count()
+        if total_in_companies_db == 0:
+            save_companies(list_company)
+            print(f"Companies saved, total records: { Companies.objects.count() }")
 
-    df_context = { }
+    save_charges(get_sample_data_cleaned())
+
+    df_context = {
+        "total_in_companies": Companies.objects.count(),
+        "total_in_charges": Charges.objects.count()
+    }
     return render(request,
                   'display_new_tables.html',
                   df_context)

@@ -13,6 +13,11 @@ def get_sample_data(data_file: str = SAMPLE_FILE) -> pd.DataFrame:
     return pd.read_csv(data_file)
 
 
+def get_sample_data_cleaned() -> pd.DataFrame:
+    data = get_sample_data()
+    return clean_dataframe(data)
+
+
 def get_columns_values(data: pd.DataFrame):
     return data.columns
 
@@ -61,6 +66,7 @@ FILTER FUNCTIONS
 def filter_nan_in_names(data):
     filtered_df = data[data[ColumnName.NAME].isna()]
     return filtered_df
+
 
 def filter_nan_in_company_id(data):
     filtered_df = data[data[ColumnName.COMPANY_ID].isna()]
@@ -216,22 +222,25 @@ def save_full_dataset_bulk(data: pd.DataFrame):
     ])
 
 
-def save_companies(data: pd.DataFrame) -> None:
-    # Convert the DataFrame to Companies Model instances and save them
-    for index, row in data.iterrows():
-        Companies.objects.create(
-            id = row[ColumnName.COMPANY_ID],
-            company_name = row[ColumnName.NAME],
-        )
+def save_companies(data: set) -> None:
+    if len(data) > 0:
+        Companies.objects.all().delete()
+        # Convert the DataFrame to Companies Model instances and save them
+        for row in data:
+            Companies.objects.create(
+                    id = row[1],
+                    company_name = row[0]
+            )
 
 
 def save_charges(data:pd.DataFrame) -> None:
-    for index, row in data.iterrows():
-        Charges.objects.create(
-            id = row[ColumnName.ID],
-            company_id = row[ColumnName.COMPANY_ID],
-            amount = row[ColumnName.AMOUNT],
-            status = row[ColumnName.STATUS],
-            created_at = row[ColumnName.CREATED_AT],
-            updated_at = row[ColumnName.PAID_AT]
-        )
+    Charges.objects.bulk_create([
+        Charges(
+            id=row[ColumnName.ID],
+            company_id=row[ColumnName.COMPANY_ID],
+            amount=row[ColumnName.AMOUNT],
+            status=row[ColumnName.STATUS],
+            created_at=row[ColumnName.CREATED_AT],
+            updated_at=row[ColumnName.PAID_AT]
+        ) for _, row in data.iterrows()
+    ])
