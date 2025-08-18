@@ -4,25 +4,25 @@
 <ul class="breadcrumb">
 <li><a href="{% url 'home' %}">Inicio</a></li>
 <li><a href="{% url 'section_1' %}"> | Section 1</a></li>
-<li><a href="{% url 'display_analysis' %}"> | Carga Inicial</a></li>
+<li><a href="{% url 'save_to_db' %}"> | Dispersión de la Información</a></li>
 </ul>
 {% endblock breadcrumb %}
 {% block content %}
     <div class="container">
-    <h1>Data Analysis</h1>
+    <h1>DataBase</h1>
         <div class="row">
-        <div class="col-sm">
-            <h2>shape_data</h2>
-            {{ shape_data | safe }}
-        </div>
-        <div class="col-sm">
-            <h3>Column Names</h3>
-            <ul>
-            {% for column in column_names %}
-            <li>{{ column }}</li>
-            {% endfor %}
-        </ul>
-        </div>
+            <div class="col-sm">
+                <h2>Total Records</h2>
+                {{ total_records | safe }}
+            </div>
+            <div class="col-sm">
+                <h3>Column Names</h3>
+                <ul>
+                {% for column in column_names %}
+                <li>{{ column }}</li>
+                {% endfor %}
+            </ul>
+            </div>
         </div>
         <div class="row">
             <h2>Categorized data</h2>
@@ -48,7 +48,9 @@
             </div>
             <div class="col-sm">
             <h3>Company W Name Data</h3>
-            {{ company_w_id_table | safe }}
+            {% for company in company_w_id %}
+                <li>{{ company }}</li>
+            {% endfor %}
             </div>
         </div>
         <div class="row">

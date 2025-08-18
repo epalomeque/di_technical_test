@@ -1,20 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Section 1</title>
-    {% load django_bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-</head>
-<body>
-    <h1>Section 1</h1>
-    <hr />
-    <h2>Carga Inicial</h2>
-    <a href="/section_1/data_analysis">Análisis de los datos iniciales</a>
-    <hr />
-    <h2>Dispersion de la Informacion</h2>
-    <hr />
-    <h2>Creación de vistas</h2>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block page_title %}Section 1{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb">
+<li><a href="{% url 'home' %}">Inicio</a></li>
+<li><a href="{% url 'section_1' %}">| Section 1</a></li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+        <h1>Section 1</h1>
+        </div>
+        <div class="row">
+            <div class="col-md">
+                <h2>1. Carga Inicial</h2>
+                <p>Lee el archivo CSV y crea un DataFrame de Pandas.</p>
+                <a href="/section_1/data_analysis">Análisis de los datos iniciales</a>
+            </div>
+            <div class="col-md">
+                <h2>2. Dispersion de la Informacion</h2>
+                <p>Limpia la información del CSV y la guarda en la Base de datos</p>
+                <a href="/section_1/save_to_db">Guardar información en BDD</a>
+            </div>
+            <div class="col-md">
+                <h2>3. Creación de nuevas tablas</h2>
+                <p>Crea las nuevas tablas en la base de datos</p>
+                <a href="/section_1/create_tables">Crear Tablas</a>
+            </div>
+            <div class="col-md">
+                <h2>4. Revisión de datos en vistas</h2>
+                <p>Crea vistas de los datos en la Base de datos y genera las nuevas tablas de consulta</p>
+                <a href="/section_1/create_views">Crear vistas</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

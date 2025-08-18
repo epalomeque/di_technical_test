@@ -5,7 +5,7 @@ import hashlib
 from data.constants import (COMPANY_ID_MAX_LENGTH, ColumnName, SAMPLE_FILE,
                             DELETE_STR, UNVALID_HEX_STR, DATEFORMAT, DEFAULT_DATE_STR, REMOVE_TIME_STR,
                             REGEX_DATE_FORMAT)
-from data.models import Sales
+from data.models import Sales, Charges, Companies
 
 
 # Create your views here.
@@ -109,8 +109,6 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         ColumnName.COMPANY_ID: str,
         ColumnName.AMOUNT: np.float32,
     })
-
-    print(new_df.info())
     return new_df
 
 
@@ -191,9 +189,7 @@ DB FUNCTIONS
 
 def save_full_dataset(data: pd.DataFrame):
     # Convert the DataFrame to Django Model instances and save them
-
     for index, row in data.iterrows():
-        print(f'{row}')
         Sales.objects.create(
             id = row[ColumnName.ID],
             company_name = row[ColumnName.NAME],
@@ -204,8 +200,9 @@ def save_full_dataset(data: pd.DataFrame):
             updated_at = row[ColumnName.PAID_AT]
         )
 
+
 def save_full_dataset_bulk(data: pd.DataFrame):
-    # Convert the DataFrame to Django Model instances and save them
+    # Convert the DataFrame to Django Model instances and save them in one step
     Sales.objects.bulk_create([
         Sales(
             id=row[ColumnName.ID],
@@ -217,3 +214,24 @@ def save_full_dataset_bulk(data: pd.DataFrame):
             updated_at=row[ColumnName.PAID_AT]
         ) for _, row in data.iterrows()
     ])
+
+
+def save_companies(data: pd.DataFrame) -> None:
+    # Convert the DataFrame to Companies Model instances and save them
+    for index, row in data.iterrows():
+        Companies.objects.create(
+            id = row[ColumnName.COMPANY_ID],
+            company_name = row[ColumnName.NAME],
+        )
+
+
+def save_charges(data:pd.DataFrame) -> None:
+    for index, row in data.iterrows():
+        Charges.objects.create(
+            id = row[ColumnName.ID],
+            company_id = row[ColumnName.COMPANY_ID],
+            amount = row[ColumnName.AMOUNT],
+            status = row[ColumnName.STATUS],
+            created_at = row[ColumnName.CREATED_AT],
+            updated_at = row[ColumnName.PAID_AT]
+        )
