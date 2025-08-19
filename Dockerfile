@@ -17,15 +17,15 @@ RUN apt-get update \
 WORKDIR /app
 
 # Create and prepare virtualenv
-RUN python -m venv /venv \
-    && /venv/bin/pip install --upgrade pip
-ENV PATH="/venv/bin:${PATH}"
+# RUN python -m venv /venv \
+#     && /venv/bin/pip install --upgrade pip
+# ENV PATH="/venv/bin:${PATH}"
 
 
 # Install Python dependencies first (better caching)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
-    && apt-get purge -y build-essential libpq-dev \
+    && apt-get purge -y build-essential \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
@@ -36,5 +36,5 @@ COPY . .
 EXPOSE 8000
 
 # Default command (can be overridden by docker-compose)
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "pip install --no-cache-dir -r requirements.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
 
