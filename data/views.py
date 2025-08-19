@@ -266,7 +266,8 @@ def save_charges(data:pd.DataFrame) -> None:
         Charges.objects.bulk_create([
             Charges(
                 id=row[ColumnName.ID],
-                company=row[ColumnName.COMPANY_ID],
+                # company=row[ColumnName.COMPANY_ID],
+                company=Companies.objects.get(id=row[ColumnName.COMPANY_ID]),
                 amount=row[ColumnName.AMOUNT],
                 status=row[ColumnName.STATUS],
                 created_at=row[ColumnName.CREATED_AT],
