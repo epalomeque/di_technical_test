@@ -1,6 +1,16 @@
 # Technical Test for DI
 Creado por Emmanuel Palomeque Alcázar
 
+### Get code
+
+Can obtain the repository from github using the command 
+
+`git clone https://github.com/epalomeque/di_technical_test.git`
+
+O puedes descargar el archivo zip desde
+
+[https://github.com/epalomeque/di_technical_test/archive/refs/heads/master.zip](https://github.com/epalomeque/di_technical_test/archive/refs/heads/master.zip)
+
 ### Iniciar contenedores docker
 
 Se inicia con la instrucción 
