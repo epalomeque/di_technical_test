@@ -53,28 +53,5 @@
             {% endfor %}
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm">
-                <h2>Sample Data Table</h2>
-                {{ html_table| safe }}
-            </div>
-            <div class="col-sm">
-                <h2>NaN in Names</h2>
-                {{ nan_in_names | safe }}
-            </div>
-            <div class="col-sm">
-                <h2>NaN in Created</h2>
-                {{ nan_in_created | safe }}
-            </div>
-            <div class="col-sm">
-                <h2>NaN in Paid</h2>
-                {{ nan_in_paid | safe }}
-            </div>
-        </div>
     </div>
-
-    <!--
-    <hr />
-    {{ column_types | safe }}
-    -->
 {% endblock %}

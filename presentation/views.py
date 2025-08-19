@@ -1,12 +1,13 @@
 import pandas as pd
 from django.shortcuts import render
-from data.models import Sales, Companies, Charges
+from data.models import Sales, Companies, Charges, ChargeSummary
 from data.views import (get_sample_data, get_name_values,
                         get_status_values, get_company_id_values,
                         get_company_w_id, get_columns_values, get_data_shape,
                         filter_nan_in_names, save_full_dataset,
                         filter_nan_in_created_at, filter_nan_in_paid_at,
-                        clean_dataframe, save_full_dataset_bulk, save_companies, get_sample_data_cleaned, save_charges)
+                        clean_dataframe, save_full_dataset_bulk, save_companies, get_sample_data_cleaned, save_charges,
+                        create_db_views)
 
 # Create your views here.
 def home(request):
@@ -38,11 +39,15 @@ def save_to_db(request):
     list_status = Sales.objects.values_list('status', flat=True)
     list_company = Sales.objects.values_list('company_name', 'company_id')
 
+    status_to_fix = "0xFFFF"
+    rows_to_fix = Sales.objects.filter(status=status_to_fix)
+
     df_context = {
-        "total_records": total_in_db,
+        "total_records": Sales.objects.count(),
         "column_names": Sales._meta.get_fields(),
         "status_values": set(list_status),
         "company_w_id": set(list_company),
+        "rows_to_fix": rows_to_fix
     }
     return render(request,
                   'display_db_raw.html',
@@ -72,8 +77,11 @@ def save_new_tables(request):
 
 
 def create_views(request):
-    # TODO: Crear las vistas
-    df_context = { }
+    create_db_views()
+    total_rows_dayli_charges = ChargeSummary.objects.all().count()
+    df_context = {
+        "total_rows_dayli_charges": total_rows_dayli_charges
+    }
     return render(request,
                   'display_views.html',
                   df_context)

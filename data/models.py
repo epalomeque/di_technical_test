@@ -33,3 +33,19 @@ class Charges(models.Model):
     status = models.CharField(max_length=30)
     created_at = models.DateTimeField(editable=False, blank=False)
     updated_at = models.DateTimeField(editable=False, blank=False)
+
+"""
+MODELS FOR VIEWS
+"""
+# data_charges.amount, data_charges.status, data_charges.created_at, data_charges.updated_at
+class ChargeSummary(models.Model):
+    id = models.CharField(max_length=24, primary_key=True)
+    company_name = models.CharField(max_length=130)
+    amount = models.DecimalField(max_digits=16, decimal_places=2)
+    status = models.CharField(max_length=30)
+    created_at = models.DateTimeField(editable=False, blank=False)
+    updated_at = models.DateTimeField(editable=False, blank=False)
+
+    class Meta:
+            managed = False
+            db_table = 'DAYLI_CHARGES'

@@ -4,7 +4,7 @@ import re
 import hashlib
 from data.constants import (COMPANY_ID_MAX_LENGTH, ColumnName, SAMPLE_FILE,
                             DELETE_STR, UNVALID_HEX_STR, DATEFORMAT, DEFAULT_DATE_STR, REMOVE_TIME_STR,
-                            REGEX_DATE_FORMAT)
+                            REGEX_DATE_FORMAT, STATUS_PAID_ERROR, STATUS_PAID)
 from data.models import Sales, Charges, Companies
 
 
@@ -109,6 +109,8 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     new_df = clean_date_columns(new_df)
     # Clean id column
     new_df = clean_id_column(new_df)
+    # Clean Status column
+    new_df = clean_status_column(new_df)
 
     new_df = new_df.astype({
         ColumnName.NAME: str,
@@ -189,6 +191,18 @@ def clean_id_column(df: pd.DataFrame) -> pd.DataFrame:
     df[ColumnName.ID] = df[ColumnName.ID].apply(lambda x: clean_id(x))
     return df
 
+
+def clean_status(status: str) -> str:
+    if status is not None and type(status) is str:
+        if status == STATUS_PAID_ERROR:
+            return STATUS_PAID
+    return status
+
+
+def clean_status_column(df: pd.DataFrame) -> pd.DataFrame:
+    df[ColumnName.STATUS] = df[ColumnName.STATUS].apply(lambda x: clean_status(x))
+    return df
+
 """
 DB FUNCTIONS
 """
@@ -234,13 +248,24 @@ def save_companies(data: set) -> None:
 
 
 def save_charges(data:pd.DataFrame) -> None:
-    Charges.objects.bulk_create([
-        Charges(
-            id=row[ColumnName.ID],
-            company_id=row[ColumnName.COMPANY_ID],
-            amount=row[ColumnName.AMOUNT],
-            status=row[ColumnName.STATUS],
-            created_at=row[ColumnName.CREATED_AT],
-            updated_at=row[ColumnName.PAID_AT]
-        ) for _, row in data.iterrows()
-    ])
+    total_in_charges = Charges.objects.all().count()
+    if total_in_charges <= 0:
+        Charges.objects.bulk_create([
+            Charges(
+                id=row[ColumnName.ID],
+                company_id=row[ColumnName.COMPANY_ID],
+                amount=row[ColumnName.AMOUNT],
+                status=row[ColumnName.STATUS],
+                created_at=row[ColumnName.CREATED_AT],
+                updated_at=row[ColumnName.PAID_AT]
+            ) for _, row in data.iterrows()
+        ])
+
+
+def create_db_views() -> None:
+    from django.db import connection
+    from data.sql_raw import SQL_DAYLI_CHARGES_VIEW, DROP_DAYLI_CHARGES_VIEW
+
+    with connection.cursor() as cursor:
+        cursor.execute(DROP_DAYLI_CHARGES_VIEW)
+        cursor.execute(SQL_DAYLI_CHARGES_VIEW)

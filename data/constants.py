@@ -24,6 +24,11 @@ UNVALID_HEX_STR = "0xFFFF"
 COMPANY_ID_MAX_LENGTH = 40
 
 REGEX_DATE_FORMAT = r"^\d{4}-\d{2}-\d{2}$"
-# DATEFORMAT = "%Y-%m-%d %H:%M:%S"
-DATEFORMAT = "%Y-%m-%d"
+
 # 2019-03-19
+DATEFORMAT = "%Y-%m-%d"
+
+# status
+STATUS_PAID_ERROR ="p&0x3fid"
+
+STATUS_PAID = "paid"
