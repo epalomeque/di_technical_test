@@ -40,6 +40,7 @@ def save_to_db(request):
     total_in_csv = get_data_shape(clean_sales).get('rows')
     if not(total_in_db == total_in_csv):
         Sales.objects.all().delete()
+        # save_full_dataset(clean_sales)
         save_full_dataset_bulk(clean_sales)
 
     list_status = Sales.objects.values_list('status', flat=True)

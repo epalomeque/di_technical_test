@@ -111,6 +111,8 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     new_df = clean_id_column(new_df)
     # Clean Status column
     new_df = clean_status_column(new_df)
+    # Clean Amount column
+    new_df = clean_amount_column(new_df)
 
     new_df = new_df.astype({
         ColumnName.NAME: str,
@@ -201,6 +203,18 @@ def clean_status(status: str) -> str:
 
 def clean_status_column(df: pd.DataFrame) -> pd.DataFrame:
     df[ColumnName.STATUS] = df[ColumnName.STATUS].apply(lambda x: clean_status(x))
+    return df
+
+
+def clean_amount(amount: float) -> float:
+    if amount is not None and type(amount) is float:
+        formated_amount = "%.2f" % amount
+        return float(formated_amount)
+    return 0.0
+
+
+def clean_amount_column(df: pd.DataFrame) -> pd.DataFrame:
+    df[ColumnName.AMOUNT] = df[ColumnName.AMOUNT].apply(lambda x: clean_amount(x))
     return df
 
 """
