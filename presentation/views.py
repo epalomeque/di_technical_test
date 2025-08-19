@@ -1,4 +1,10 @@
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from io import BytesIO
+import base64
 from django.shortcuts import render
 from data.models import Sales, Companies, Charges, ChargeSummary
 from data.views import (get_sample_data, get_name_values,
@@ -63,13 +69,14 @@ def save_new_tables(request):
         total_in_companies_db = Companies.objects.count()
         if total_in_companies_db == 0:
             save_companies(list_company)
-            print(f"Companies saved, total records: { Companies.objects.count() }")
 
     save_charges(get_sample_data_cleaned())
 
     df_context = {
         "total_in_companies": Companies.objects.count(),
-        "total_in_charges": Charges.objects.count()
+        "total_in_charges": Charges.objects.count(),
+        "charges_column_names": Charges._meta.get_fields(),
+        "companies_column_names": Companies._meta.get_fields(),
     }
     return render(request,
                   'display_new_tables.html',
@@ -79,8 +86,16 @@ def save_new_tables(request):
 def create_views(request):
     create_db_views()
     total_rows_dayli_charges = ChargeSummary.objects.all().count()
+
+    # MAke chart
+    df = pd.DataFrame(list(ChargeSummary.objects.order_by('created_at').all().values()))
+    plot = plot_with_args(df['created_at'], df['amount'])
+
     df_context = {
-        "total_rows_dayli_charges": total_rows_dayli_charges
+        "total_rows_dayli_charges": total_rows_dayli_charges,
+        "charges_view_column_names": ChargeSummary._meta.get_fields(),
+        "charges_view_data": ChargeSummary.objects.all(),
+        "plot_image": plot
     }
     return render(request,
                   'display_views.html',
@@ -105,3 +120,26 @@ def create_df_context(df: pd.DataFrame) -> dict :
         shape_data = get_data_shape(df),
         # column_types = df.dtypes
     )
+
+
+def plot_with_args(x, y) -> str:
+    """ Pass arguments to plot function """
+    fig, ax = plt.subplots()
+    plt.plot_date(x, y, xdate=True, linestyle='solid', marker='o', label='Dayli Charged_back Amount')
+    plt.legend(loc='upper right', fontsize='small')
+    plt.xticks(rotation=30, ha='right')
+    ax.grid(True)
+    ax.set_title('Cargos diarios')
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
+
+    # label x-axis and y-axis
+    ax.set_ylabel('Amount')
+    ax.set_xlabel('Dates')
+
+    # Save plot to buffer
+    buf = BytesIO()
+    plt.savefig(buf, format='png', dpi=300)
+    image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8').replace('\n', '')
+    buf.close()
+
+    return image_base64

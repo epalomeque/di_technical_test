@@ -3,13 +3,20 @@
 {% block breadcrumb %}
 <ul class="breadcrumb">
 <li><a href="{% url 'home' %}">Inicio</a></li>
-<li><a href="{% url 'section_1' %}"> | Section 1</a></li>
-<li><a href="{% url 'save_to_db' %}"> | 2. Dispersión de la Información</a></li>
+<li>| <a href="{% url 'section_1' %}">Section 1</a></li>
+<li>| <a href="{% url 'save_to_db' %}">2. Dispersión de la Información</a></li>
 </ul>
 {% endblock breadcrumb %}
 {% block content %}
     <div class="container">
-    <h1>DataBase</h1>
+        <div class="row mb-3">
+            <div class="col-sm-4"><h1>DataBase</h1></div>
+            <div class="col-sm-8">
+                <p>Se muestran los resultados despues limpiar los datos
+                    y de agregarlos en la base de datos en una sola tabla</p>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-sm">
                 <h2>Total Records</h2>
@@ -22,35 +29,6 @@
                 <li>{{ column }}</li>
                 {% endfor %}
             </ul>
-            </div>
-        </div>
-        <div class="row">
-            <h2>Categorized data</h2>
-            <!-- div class="col-sm">
-                <h3>Name Data</h3>
-                <ul>
-                {% for name in name_values %}
-                    <li>{{ name }}</li>
-                {% endfor %}
-                </ul>
-            </div -->
-            <!-- div class="col-sm">
-                <h3>company_id Data</h3>
-                {% for company in company_id_values %}
-                    <li>{{ company }}</li>
-                {% endfor %}
-            </div -->
-            <div class="col-sm">
-            <h3>Status Data</h3>
-            {% for status in status_values %}
-                <li>{{ status }}</li>
-            {% endfor %}
-            </div>
-            <div class="col-sm">
-            <h3>Company W Name Data</h3>
-            {% for company in company_w_id %}
-                <li>{{ company }}</li>
-            {% endfor %}
             </div>
         </div>
     </div>

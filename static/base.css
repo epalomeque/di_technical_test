@@ -1,0 +1,18 @@
+div#base_footer {
+    /* bottom: 0; */
+    background-color: darkgrey;
+    height: 60px;
+    line-height: 60px;
+    margin-top: 15px;
+    max-width: 100%;
+    position: absolute;
+}
+
+div#base_footer div.row {
+    justify-content: center;
+}
+
+ul.breadcrumb li {
+    border-right-width: 1px;
+    margin-right: 5px;
+}

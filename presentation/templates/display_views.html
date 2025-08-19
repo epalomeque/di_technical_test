@@ -4,8 +4,8 @@
 {% block breadcrumb %}
     <ul class="breadcrumb">
     <li><a href="{% url 'home' %}">Inicio </a></li>
-    <li><a href="{% url 'section_1' %}"> | Section 1 </a></li>
-    <li><a href="{% url 'create_views' %}"> | 4. Display Views</a></li>
+    <li>| <a href="{% url 'section_1' %}">Section 1 </a></li>
+    <li>| <a href="{% url 'create_views' %}">4. Display Views</a></li>
     </ul>
 {% endblock breadcrumb %}
 
@@ -13,68 +13,29 @@
     <div class="container">
     <h1>Views</h1>
         <div class="row">
-        <div class="col-sm">
-            <h2>Total Rows</h2>
-            {{ total_rows_dayli_charges | safe }}
-        </div>
-        <div class="col-sm">
-            <h3>Column Names</h3>
-            <ul>
-            {% for column in column_names %}
-            <li>{{ column }}</li>
-            {% endfor %}
-        </ul>
-        </div>
-        </div>
-        <div class="row">
-            <h2>Categorized data</h2>
-            <!-- div class="col-sm">
-                <h3>Name Data</h3>
+            <div class="col-sm-4">
+                <h2>Total Rows</h2>
+                {{ total_rows_dayli_charges | safe }}
+            </div>
+            <div class="col-sm-8">
+                <h3>Column Names</h3>
                 <ul>
-                {% for name in name_values %}
-                    <li>{{ name }}</li>
+                {% for column in charges_view_column_names %}
+                <li>{{ column }}</li>
                 {% endfor %}
-                </ul>
-            </div -->
-            <!-- div class="col-sm">
-                <h3>company_id Data</h3>
-                {% for company in company_id_values %}
-                    <li>{{ company }}</li>
-                {% endfor %}
-            </div -->
-            <div class="col-sm">
-            <h3>Status Data</h3>
-            {% for status in status_values %}
-                <li>{{ status }}</li>
-            {% endfor %}
-            </div>
-            <div class="col-sm">
-            <h3>Company W Name Data</h3>
-            {{ company_w_id_table | safe }}
+            </ul>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm">
-                <h2>Sample Data Table</h2>
-                {{ html_table| safe }}
-            </div>
-            <div class="col-sm">
-                <h2>NaN in Names</h2>
-                {{ nan_in_names | safe }}
-            </div>
-            <div class="col-sm">
-                <h2>NaN in Created</h2>
-                {{ nan_in_created | safe }}
-            </div>
-            <div class="col-sm">
-                <h2>NaN in Paid</h2>
-                {{ nan_in_paid | safe }}
+            <div class="col-sm-12">
+                <h2>View data</h2>
+                <ol>
+                {% for dato in charges_view_data %}
+                    <li>{{ dato.id }} | {{ dato.status }} | {{ dato.company_name }} | {{ dato.amount }} | {{ dato.created_at }} | {{ dato.updated_at }}</li>
+                {% endfor %}
+                </ol>
+                <img src="data:image/png;base64,{{ plot_image }}" alt="Chart" width="100%">
             </div>
         </div>
     </div>
-
-    <!--
-    <hr />
-    {{ column_types | safe }}
-    -->
 {% endblock %}

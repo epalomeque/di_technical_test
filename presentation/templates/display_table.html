@@ -3,76 +3,65 @@
 {% block breadcrumb %}
 <ul class="breadcrumb">
 <li><a href="{% url 'home' %}">Inicio</a></li>
-<li><a href="{% url 'section_1' %}"> | Section 1</a></li>
-<li><a href="{% url 'display_analysis' %}"> | 1. Carga Inicial</a></li>
+<li>| <a href="{% url 'section_1' %}">Section 1</a></li>
+<li>| <a href="{% url 'display_analysis' %}">1. Carga Inicial</a></li>
 </ul>
 {% endblock breadcrumb %}
 {% block content %}
     <div class="container">
-    <h1>Data Analysis</h1>
+        <div class="row mb-3">
+            <div class="col-sm-4">
+                <h1>Data Analysis</h1>
+            </div>
+            <div class="col-sm-8">
+                <p>Se muestran las caracteristicas que traen los datos de origen, esto con la finalidad
+                de buscar las acciones a tomar para "limpiar" los mismos y generar datos mas optimizados</p>
+            </div>
+        </div>
         <div class="row">
-        <div class="col-sm">
-            <h2>shape_data</h2>
-            {{ shape_data | safe }}
-        </div>
-        <div class="col-sm">
-            <h3>Column Names</h3>
-            <ul>
-            {% for column in column_names %}
-            <li>{{ column }}</li>
-            {% endfor %}
-        </ul>
-        </div>
+            <div class="col-sm">
+                <h2>shape_data</h2>
+                {{ shape_data | safe }}
+            </div>
+            <div class="col-sm">
+                <h3>Column Names</h3>
+                <ul>
+                {% for column in column_names %}
+                <li>{{ column }}</li>
+                {% endfor %}
+                </ul>
+            </div>
         </div>
         <div class="row">
             <h2>Categorized data</h2>
-            <!-- div class="col-sm">
-                <h3>Name Data</h3>
-                <ul>
-                {% for name in name_values %}
-                    <li>{{ name }}</li>
+            <div class="col-sm-4">
+                <h3>Status Data</h3>
+                {% for status in status_values %}
+                    <li>{{ status }}</li>
                 {% endfor %}
-                </ul>
-            </div -->
-            <!-- div class="col-sm">
-                <h3>company_id Data</h3>
-                {% for company in company_id_values %}
-                    <li>{{ company }}</li>
-                {% endfor %}
-            </div -->
-            <div class="col-sm">
-            <h3>Status Data</h3>
-            {% for status in status_values %}
-                <li>{{ status }}</li>
-            {% endfor %}
             </div>
-            <div class="col-sm">
-            <h3>Company W Name Data</h3>
-            {{ company_w_id_table | safe }}
+            <div class="col-sm-8">
+                <h3>Company W Name Data</h3>
+                {{ company_w_id_table | safe }}
             </div>
         </div>
         <div class="row">
-            <div class="col-sm">
+            <div class="col-sm-12 overflow-scroll">
                 <h2>Sample Data Table</h2>
                 {{ html_table| safe }}
             </div>
-            <div class="col-sm">
+            <div class="col-sm-12 overflow-scroll">
                 <h2>NaN in Names</h2>
                 {{ nan_in_names | safe }}
             </div>
-            <div class="col-sm">
+            <div class="col-sm-12 overflow-scroll">
                 <h2>NaN in Created</h2>
                 {{ nan_in_created | safe }}
             </div>
-            <div class="col-sm">
+            <div class="col-sm-12 overflow-scroll">
                 <h2>NaN in Paid</h2>
                 {{ nan_in_paid | safe }}
             </div>
         </div>
     </div>
-
-    <!--
-    <hr />
-    {{ column_types | safe }}
-    -->
 {% endblock %}

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from unittest.mock import DEFAULT
 
-SAMPLE_FILE = "assets/data_prueba_tecnica 1.csv"
+SAMPLE_FILE = "static/assets/data_prueba_tecnica 1.csv"
 
 @dataclass(frozen=True)
 class ColumnName:

@@ -3,8 +3,8 @@
 
 {% block breadcrumb %}
 <ul class="breadcrumb">
-    <li><a href="{% url 'home' %}">Inicio </a></li>
-    <li><a href="{% url 'display_section_2' %}"> | Section 2</a></li>
+    <li><a href="{% url 'home' %}">Inicio</a></li>
+    <li>| <a href="{% url 'display_section_2' %}">Section 2</a></li>
 </ul>
 {% endblock breadcrumb %}
 
@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row">
             <h1>Section 2: Clases</h1>
-            <p>Se toma la clase conteniendo los primeros 00 número naturales.</p>
+            <p>Se toma la clase conteniendo los primeros 100 números naturales.</p>
             <p>Al iniciar se tomará un valor por default, pero se puede probar cambiando en el input.</p>
         </div>
         <div class="row">
