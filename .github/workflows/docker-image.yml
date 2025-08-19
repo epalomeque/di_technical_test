@@ -19,5 +19,5 @@ jobs:
       run: docker build . --file Dockerfile -t epalomeque/technical:$(date +%s)
     - name: Push to docker
       run: | 
-        docker login -u epalomeque -p ${{ secrets.DOCKER-HUB_TOKEN }}
+        docker login -u epalomeque -p ${{ secrets.DOCKER_HUB_TOKEN }}
         docker push epalomeque/technical:latest
