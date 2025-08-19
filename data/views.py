@@ -220,7 +220,6 @@ def clean_amount_column(df: pd.DataFrame) -> pd.DataFrame:
 """
 DB FUNCTIONS
 """
-
 def save_full_dataset(data: pd.DataFrame):
     # Convert the DataFrame to Django Model instances and save them
     for index, row in data.iterrows():
@@ -251,8 +250,8 @@ def save_full_dataset_bulk(data: pd.DataFrame):
 
 
 def save_companies(data: set) -> None:
+    Companies.objects.all().delete()
     if len(data) > 0:
-        Companies.objects.all().delete()
         # Convert the DataFrame to Companies Model instances and save them
         for row in data:
             Companies.objects.create(
@@ -267,7 +266,7 @@ def save_charges(data:pd.DataFrame) -> None:
         Charges.objects.bulk_create([
             Charges(
                 id=row[ColumnName.ID],
-                company_id=row[ColumnName.COMPANY_ID],
+                company=row[ColumnName.COMPANY_ID],
                 amount=row[ColumnName.AMOUNT],
                 status=row[ColumnName.STATUS],
                 created_at=row[ColumnName.CREATED_AT],
