@@ -48,4 +48,4 @@ class ChargeSummary(models.Model):
 
     class Meta:
             managed = False
-            db_table = 'DAYLI_CHARGES'
+            db_table = 'dayli_charges'
