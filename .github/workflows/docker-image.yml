@@ -18,6 +18,8 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile -t epalomeque/technical:$(date +%s)
     - name: Push to docker
+      env: # Or as an environment variable
+        super_secret: ${{ secrets.DOCKER_HUB_TOKEN }}
       run: | 
-        docker login -u epalomeque -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker login -u epalomeque -p $SUPER_SECRET
         docker push epalomeque/technical:latest
